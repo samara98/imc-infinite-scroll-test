@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-row dense>
-      <v-col v-for="photo in photos" :key="photo.id" cols="6" md="3">
+    <v-row>
+      <v-col v-for="photo in picsumPhotos" :key="photo.id" cols="12" sm="6" md="3">
         <picsum-card :picture="photo"></picsum-card>
       </v-col>
     </v-row>
@@ -10,33 +10,22 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { Computed, mapState } from 'vuex';
 import PicsumCard from './PicsumeHero/PicsumCard.vue';
 
-interface PicsumPhotoProp {
-  id: string;
-  author: string;
-  width: number;
-  height: number;
-  url: string;
-  download_url: string;
+interface ComputedProps {
+  picsumPhotos: Computed;
 }
 
-interface Props {
-  photos: PicsumPhotoProp[];
-}
-
-const PicsumHero = Vue.extend<unknown, unknown, unknown, Props>({
-  name: 'PictumHero',
+const PicsumHero = Vue.extend<unknown, unknown, ComputedProps>({
+  name: 'PicsumHero',
 
   components: {
     PicsumCard,
   },
 
-  props: {
-    photos: {
-      type: Array,
-      default: () => [],
-    },
+  computed: {
+    ...mapState(['picsumPhotos']),
   },
 });
 

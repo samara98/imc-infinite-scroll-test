@@ -3,11 +3,16 @@
     <navbar></navbar>
 
     <v-main>
-      <picsum-hero :photos="photos"></picsum-hero>
+      <picsum-hero></picsum-hero>
     </v-main>
 
-    <div class="mb-5">
-      <v-progress-linear color="primary" indeterminate reverse v-show="loading"></v-progress-linear>
+    <div class="mt-6 mb-6">
+      <v-progress-linear
+        color="primary"
+        indeterminate
+        reverse
+        v-show="picsumLoading"
+      ></v-progress-linear>
     </div>
   </v-app>
 </template>
@@ -16,29 +21,27 @@
 import Vue from 'vue';
 import Navbar from './layouts/Navbar.vue';
 import PicsumHero from './components/PicsumHero.vue';
-import { picsumApi2 } from './api/picsum-api';
+import { PicsumPhotos } from './types/picsum';
+import { ActionMethod, Computed, mapActions, mapMutations, mapState, MutationMethod } from 'vuex';
+import { PICSUM_ACTION_FETCH_PHOTOS, PICSUM_MUTATION_INCREMENT_PAGE } from './store/types';
 
-interface PicsumPhoto {
-  id: string;
-  author: string;
-  width: number;
-  height: number;
-  url: string;
-  download_url: string;
-}
-
-interface Data {
-  photos: PicsumPhoto[];
+interface DataProps {
+  photos: PicsumPhotos;
   page: number;
   loading: boolean;
 }
 
-interface Methods {
-  fetchPicsumPhotos: () => void;
+interface ComputedProps {
+  picsumLoading: Computed;
+}
+
+interface MethodsProps {
+  [PICSUM_MUTATION_INCREMENT_PAGE]: MutationMethod;
+  [PICSUM_ACTION_FETCH_PHOTOS]: ActionMethod;
   handleScroll: () => void;
 }
 
-const App = Vue.extend<Data, Methods, unknown>({
+const App = Vue.extend<DataProps, MethodsProps, ComputedProps>({
   name: 'App',
 
   components: {
@@ -47,7 +50,7 @@ const App = Vue.extend<Data, Methods, unknown>({
   },
 
   created() {
-    this.fetchPicsumPhotos();
+    this[PICSUM_ACTION_FETCH_PHOTOS]();
   },
 
   mounted() {
@@ -58,33 +61,20 @@ const App = Vue.extend<Data, Methods, unknown>({
     window.removeEventListener('scroll', this.handleScroll);
   },
 
-  data: () => ({
-    photos: [],
-    page: 1,
-    loading: false,
-  }),
+  computed: {
+    ...mapState(['picsumLoading']),
+  },
 
   methods: {
-    async fetchPicsumPhotos(limit = 20) {
-      this.loading = true;
-      try {
-        const photosResp = await picsumApi2.get<PicsumPhoto[]>(
-          `/list?page=${this.page}&limit=${limit}`,
-        );
-        this.photos.push(...photosResp.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        this.loading = false;
-      }
-    },
+    ...mapMutations([PICSUM_MUTATION_INCREMENT_PAGE]),
+    ...mapActions([PICSUM_ACTION_FETCH_PHOTOS]),
     handleScroll() {
       let bottomOfWindow =
         document.documentElement.scrollTop + window.innerHeight ===
         document.documentElement.offsetHeight;
       if (bottomOfWindow) {
-        this.page++;
-        this.fetchPicsumPhotos();
+        this[PICSUM_MUTATION_INCREMENT_PAGE]();
+        this[PICSUM_ACTION_FETCH_PHOTOS]();
       }
     },
   },

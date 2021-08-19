@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto my-12" max-width="360" elevation="8">
+  <v-card class="mx-auto" elevation="8">
     <template slot="progress">
       <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
     </template>
@@ -64,7 +64,7 @@ const PicsumCard = Vue.extend<unknown, unknown, Computed, Props>({
     pic() {
       const urlArr = this.picture.download_url.split('/id/');
       const id = urlArr[1].split('/')[0];
-      const url = `${urlArr[0]}/id/${id}/360/240`;
+      const url = `${urlArr[0]}/id/${id}/480/360`;
       return url;
     },
   },

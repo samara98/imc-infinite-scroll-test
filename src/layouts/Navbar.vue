@@ -10,7 +10,7 @@
         width="100"
         transition="scale-transition"
       />
-      <v-toolbar-title>Infinite Scrolling</v-toolbar-title>
+      <v-toolbar-title class="shrink mt-1 hidden-sm-and-down">Infinite Scrolling</v-toolbar-title>
     </div>
 
     <v-spacer></v-spacer>
