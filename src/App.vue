@@ -5,6 +5,7 @@
     <v-main>
       <picsum-hero :photos="photos"></picsum-hero>
     </v-main>
+
     <div class="mb-5">
       <v-progress-linear color="primary" indeterminate reverse v-show="loading"></v-progress-linear>
     </div>
@@ -64,13 +65,13 @@ const App = Vue.extend<Data, Methods, unknown>({
   }),
 
   methods: {
-    async fetchPicsumPhotos(limit = 5) {
+    async fetchPicsumPhotos(limit = 20) {
       this.loading = true;
       try {
         const photosResp = await picsumApi2.get<PicsumPhoto[]>(
           `/list?page=${this.page}&limit=${limit}`,
         );
-        this.photos = this.photos.concat(photosResp.data);
+        this.photos.push(...photosResp.data);
       } catch (err) {
         console.error(err);
       } finally {

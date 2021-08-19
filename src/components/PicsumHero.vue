@@ -1,6 +1,10 @@
 <template>
   <v-container>
-    <picsum-card v-for="photo in photos" :key="photo.id" :picture="photo"></picsum-card>
+    <v-row dense>
+      <v-col v-for="photo in photos" :key="photo.id" cols="6" md="3">
+        <picsum-card :picture="photo"></picsum-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
