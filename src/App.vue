@@ -5,11 +5,7 @@
     <v-spacer></v-spacer>
 
     <v-main>
-      <v-container>
-        <div v-for="photo in photos" :key="photo.id">
-          <img :src="photo.download_url" :alt="photo.author" height="200" />
-        </div>
-      </v-container>
+      <picsum-hero :photos="photos"></picsum-hero>
     </v-main>
   </v-app>
 </template>
@@ -17,6 +13,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Navbar from './components/Navbar.vue';
+import PicsumHero from './components/PicsumHero.vue';
 
 const photos = [
   {
@@ -202,6 +199,7 @@ const App = Vue.extend<Data, Methods, unknown>({
 
   components: {
     Navbar,
+    PicsumHero,
   },
 
   created() {
