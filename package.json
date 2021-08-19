@@ -1,12 +1,14 @@
 {
   "name": "imc-infinite-scroll-test",
   "version": "0.1.0",
-  "private": true,
+  "description": "Front-End Developer Test",
+  "author": "Sulthon Abdul Malik <sulthon.abdmalik@gmail.com>",
+  "license": "ISC",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "prettify": "prettier -w \"{public,src}/**/*.{js,jsx,vue,ts,tsx}\""
+    "prettify": "prettier -w \"{public,src}/**/*.{json,js,jsx,vue,ts,tsx}\""
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -37,13 +39,19 @@
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.0"
   },
+  "keywords": [
+    "interview-test",
+    "vue",
+    "infinite-scroll",
+    "typescript",
+    "vuetify",
+    "vercel"
+  ],
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx,vue,ts,tsx}": [
-      "vue-cli-service lint",
-      "git add"
-    ]
-  }
+    "*.{json,js,jsx,vue,ts,tsx}": "vue-cli-service lint"
+  },
+  "repository": "git@github.com:samara98/imc-infinite-scroll-test.git"
 }
